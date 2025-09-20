@@ -5,7 +5,7 @@
   <title>Login</title>
   <link rel="stylesheet" href="css/login.css">
   <style>
-    /* Simple inline CSS if you don’t want a separate file */
+
     body {
       font-family: Arial, sans-serif;
       background-color: #f5f5f5;
@@ -76,28 +76,20 @@
   <div class="login-container">
     <h2>Login</h2>
 
-    <form id="loginForm">
+    <form id="loginForm" action="actions/login_process.php" method="POST">
       <input type="email" name="email" placeholder="Email" required>
       <input type="password" name="password" placeholder="Password" required>
       <button type="submit">Login</button>
     </form>
 
-    <div id="message"></div>
+    <?php if (isset($_GET['error'])): ?>
+      <p id="message" style="color:red;"><?php echo htmlspecialchars($_GET['error']); ?></p>
+    <?php elseif (isset($_GET['success'])): ?>
+      <p id="message" style="color:green;"><?php echo htmlspecialchars($_GET['success']); ?></p>
+    <?php endif; ?>
 
     <a href="register.php">Don't have an account? Register</a>
   </div>
-
-<script>
-  const form = document.getElementById('loginForm');
-  const msg = document.getElementById('message');
-
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    msg.textContent = 'This is a placeholder login action.';
-    msg.style.color = 'blue';
-    // Here you can add your fetch/ajax call to your login PHP script
-  });
-</script>
 
 </body>
 </html>

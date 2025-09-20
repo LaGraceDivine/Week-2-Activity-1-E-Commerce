@@ -17,7 +17,7 @@ class Database {
             );
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e) {
-            // Return error instead of die() for proper fetch handling
+
             throw new Exception("Database connection error: " . $e->getMessage());
         }
 

@@ -6,9 +6,14 @@ function register_customer_ctr($data) {
     return $customer->addCustomer(
         $data['full_name'],
         $data['email'],
-        $data['password'],  // raw password
+        $data['password'],
         $data['country'],
         $data['city'],
         $data['contact_number']
     );
+}
+
+function login_customer_ctr($email, $password) {
+    $customer = new Customer();
+    return $customer->loginCustomer($email, $password);
 }

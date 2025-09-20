@@ -9,7 +9,7 @@ if (!isset($_GET['country']) || empty($_GET['country'])) {
 
 $countryCode = urlencode($_GET['country']);
 
-// GeoDB Cities API (limit to 10 biggest cities in that country)
+//GeoDB Cities API (limit to 10 biggest cities in that country)
 $url = "http://geodb-free-service.wirefreethought.com/v1/geo/cities?limit=10&countryIds=$countryCode&sort=-population";
 
 $ch = curl_init();
@@ -27,7 +27,7 @@ curl_close($ch);
 
 $data = json_decode($response, true);
 
-// Extracting city names
+//Extracting city names
 if (isset($data['data']) && is_array($data['data'])) {
     $cities = array_map(function ($city) {
         return $city['name'];

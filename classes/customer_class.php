@@ -7,7 +7,6 @@ class Customer extends Database {
         try {
             $conn = $this->connect();
 
-            // Checking if email exists
             $stmt = $conn->prepare("SELECT id FROM customers WHERE LOWER(email) = LOWER(?)");
             $stmt->execute([$email]);
             if ($stmt->rowCount() > 0) {
@@ -34,6 +33,31 @@ class Customer extends Database {
         } catch (Exception $e) {
             file_put_contents('debug.txt', "Exception: " . $e->getMessage() . "\n", FILE_APPEND);
             return "Exception: " . $e->getMessage();
+        }
+    }
+    public function getCustomerByEmail($email) {
+        try {
+            $conn = $this->connect();
+            $stmt = $conn->prepare("SELECT * FROM customers WHERE email = ?");
+            $stmt->execute([$email]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            file_put_contents('debug.txt', "getCustomerByEmail Exception: " . $e->getMessage() . "\n", FILE_APPEND);
+            return null;
+        }
+    }
+
+    public function loginCustomer($email, $password) {
+        try {
+            $customer = $this->getCustomerByEmail($email);
+
+            if ($customer && password_verify($password, $customer['password'])) {
+                return $customer;
+            }
+            return false;
+        } catch (Exception $e) {
+            file_put_contents('debug.txt', "loginCustomer Exception: " . $e->getMessage() . "\n", FILE_APPEND);
+            return false;
         }
     }
 }
