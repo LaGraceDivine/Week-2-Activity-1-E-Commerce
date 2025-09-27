@@ -51,11 +51,12 @@ if (!isset($_SESSION['user_id'])) {
 
   <div class="dashboard-container">
     <h1>Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?>!</h1>
-    <p>Anything we should do for you???</p>
+    <p>Anything for you!!!</p>
 
     <?php if (isAdmin()): ?>
       <p><strong>Admin</strong></p>
       <a href="admin_panel.php">Go to Admin Panel</a>
+      <a href="admin/category.php">Category Management</a>
     <?php else: ?>
       <p></p>
     <?php endif; ?>
