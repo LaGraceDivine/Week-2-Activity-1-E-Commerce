@@ -19,13 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['user_name'] = $result['full_name'];
         $_SESSION['user_role'] = $result['user_role'];
 
-        header("Location: ../dashboard.php?success=Welcome " . urlencode($result['full_name']));
+        header("Location: ../login/dashboard.php?success=Welcome " . urlencode($result['full_name']));
         exit;
     } else {
-        header("Location: ../login.php?error=Invalid email or password");
+        header("Location: ../login/login.php?error=Invalid email or password");
         exit;
     }
 } else {
-    header("Location: ../login.php?error=Invalid request");
+    header("Location: ../login/login.php?error=Invalid request");
     exit;
 }

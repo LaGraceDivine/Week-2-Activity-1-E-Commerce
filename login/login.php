@@ -76,7 +76,7 @@
   <div class="login-container">
     <h2>Login</h2>
 
-    <form id="loginForm" action="actions/login_process.php" method="POST">
+    <form id="loginForm" action="../actions/login_process.php" method="POST">
       <input type="email" name="email" placeholder="Email" required>
       <input type="password" name="password" placeholder="Password" required>
       <button type="submit">Login</button>

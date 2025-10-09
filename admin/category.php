@@ -1,5 +1,5 @@
 <?php
-require_once "../core.php";
+require_once("../settings/core.php");
 if (!isLoggedIn() || !isAdmin()) {
     header("Location: ../login.php?error=Unauthorized");
     exit;

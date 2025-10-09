@@ -1,7 +1,7 @@
 <?php
 class Database {
     private $host = "localhost";
-    private $db_name = "ecommerce_db";
+    private $db_name = "dbforlab";
     private $username = "root";
     private $password = "root";
     public $conn;

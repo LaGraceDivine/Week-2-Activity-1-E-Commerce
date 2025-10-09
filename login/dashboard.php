@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'core.php';
+require_once("../settings/core.php");
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php?error=Please login first");
@@ -55,13 +55,13 @@ if (!isset($_SESSION['user_id'])) {
 
     <?php if (isAdmin()): ?>
       <p><strong>Admin</strong></p>
-      <a href="admin_panel.php">Go to Admin Panel</a>
-      <a href="admin/category.php">Category Management</a>
+      <a href="../admin_panel.php">Go to Admin Panel</a>
+      <a href="../admin/category.php">Category Management</a>
     <?php else: ?>
       <p></p>
     <?php endif; ?>
 
-    <a href="actions/logout.php">Logout</a>
+    <a href="../actions/logout.php">Logout</a>
   </div>
 
 </body>

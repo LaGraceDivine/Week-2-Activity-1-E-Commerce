@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Customer Registration</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="../css/style.css">
   <style>
     .registration-container {
       width: 400px;
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    fetch(`actions/get_cities_action.php?country=${encodeURIComponent(selectedCountryCode)}`)
+    fetch(`../actions/get_cities_action.php?country=${encodeURIComponent(selectedCountryCode)}`)
       .then(res => res.json())
       .then(data => {
         citySelect.innerHTML = '';
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     const formData = new FormData(form);
 
-    fetch('actions/register_customer_action.php', {
+    fetch('../actions/register_customer_action.php', {
       method: 'POST',
       body: formData
     })

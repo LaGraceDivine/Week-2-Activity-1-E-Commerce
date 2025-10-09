@@ -49,8 +49,8 @@
 
   <div class="home-container">
     <h1>Welcome to Our Website!</h1>
-    <a href="register.php">Register</a>
-    <a href="login.php">Login</a>
+    <a href="login/register.php">Register</a>
+    <a href="login/login.php">Login</a>
   </div>
 
 </body>
