@@ -1,0 +1,18 @@
+# Ignore local configuration files
+settings/db_cred.php
+classes/db_connection.php
+settings/db_class.php
+
+# Ignore all uploaded files
+uploads/
+
+# Ignore system files and caches
+.DS_Store
+debug.txt
+
+# Ignore node or composer dependencies if ever added
+/vendor/
+/node_modules/
+
+# Ignore local environment file if any
+.env

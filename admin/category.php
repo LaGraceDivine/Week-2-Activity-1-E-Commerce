@@ -10,6 +10,7 @@ if (!isLoggedIn() || !isAdmin()) {
 <head>
   <meta charset="UTF-8">
   <title>Category Management</title>
+  
   <script src="../js/category.js"></script>
   <style>
     body { font-family: Arial, sans-serif; background: #f5f5f5; }
@@ -20,6 +21,14 @@ if (!isLoggedIn() || !isAdmin()) {
     table, th, td { border: 1px solid #ddd; }
     th, td { padding: 10px; text-align: left; }
     button { cursor: pointer; }
+
+    <link rel="stylesheet" href="../css/style.css">
+    .container{max-width:1100px;margin:20px auto;padding:10px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    label{display:block;margin-bottom:6px}
+    input,select,textarea{width:100%;padding:6px;margin-bottom:8px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:6px;border:1px solid #ddd}
   </style>
 </head>
 <body>
