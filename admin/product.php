@@ -56,7 +56,7 @@ $brands = $page->getBrands();
 
     <section id="product-form-sec">
       <h2>Add / Edit Product</h2>
-      <form id="productForm">
+      <form id="productForm" onsubmit="return false;">
         <input type="hidden" id="product_id" name="product_id" value="0">
         <div class="grid">
           <div>
@@ -90,12 +90,9 @@ $brands = $page->getBrands();
             <label>Keywords</label>
             <input id="product_keywords" name="product_keywords">
 
-            <label>Image (upload)</label>
-            <input id="product_image_file" type="file" accept="image/*">
-
-            <div style="margin-top:8px"><button type="button" id="uploadImageBtn">Upload Image</button></div>
-
-            <div id="uploadedPreview" style="margin-top:8px"></div>
+            <label>Image</label>
+            <input id="product_image_file" type="file" accept="image/*" required>
+            <div id="uploadedPreview" style="margin-top:8px; font-size:12px; color:#666;"></div>
           </div>
         </div>
 
@@ -112,6 +109,105 @@ $brands = $page->getBrands();
     </section>
   </main>
 
-  <script src="/js/product.js"></script>
+  <script>
+    // Inline test - this should always show
+    console.log('=== INLINE SCRIPT LOADED ===');
+    
+    // Test if external script loads
+    window.addEventListener('load', function() {
+      console.log('=== PAGE FULLY LOADED ===');
+      
+      // Check if product.js loaded by checking for a function it should define
+      setTimeout(function() {
+        const testEl = document.getElementById('productForm');
+        console.log('productForm element found:', !!testEl);
+        
+        if (!testEl) {
+          console.error('ERROR: productForm element not found in DOM!');
+        }
+      }, 100);
+    });
+  </script>
+  
+  <script src="../js/product.js" onerror="console.error('ERROR: Failed to load product.js file!')"></script>
+  
+  <script>
+    // Test after script should have loaded
+    setTimeout(function() {
+      console.log('=== POST-LOAD CHECK ===');
+      const form = document.getElementById('productForm');
+      const saveBtn = document.getElementById('saveProductBtn');
+      
+      if (form && saveBtn) {
+        console.log('Elements found, adding manual click handler as backup...');
+        
+        // Add a simple manual handler as backup
+        if (saveBtn) {
+          saveBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          console.log('MANUAL BACKUP HANDLER: Save button clicked!');
+          alert('Save button clicked! Check console for details.');
+          
+          // Validate required fields
+          const product_cat = document.getElementById('product_cat').value;
+          const product_brand = document.getElementById('product_brand').value;
+          const product_title = document.getElementById('product_title').value;
+          const product_price = document.getElementById('product_price').value;
+          
+          if (!product_cat || !product_brand || !product_title || !product_price) {
+            alert('Please fill in all required fields');
+            return;
+          }
+          
+          // Use FormData to handle file upload
+          const fd = new FormData();
+          fd.append('product_cat', product_cat);
+          fd.append('product_brand', product_brand);
+          fd.append('product_title', product_title);
+          fd.append('product_price', product_price);
+          fd.append('product_desc', document.getElementById('product_desc').value);
+          fd.append('product_keywords', document.getElementById('product_keywords').value);
+          
+          // Add image file if selected
+          const fileInput = document.getElementById('product_image_file');
+          if (fileInput && fileInput.files.length > 0) {
+            fd.append('image', fileInput.files[0]);
+          }
+          
+          // Try to submit
+          const actionUrl = '../actions/add_product_action.php';
+          fetch(actionUrl, {
+            method: 'POST',
+            body: fd  // Don't set Content-Type - browser will set it with boundary
+          })
+          .then(res => res.text())
+          .then(text => {
+            console.log('Response:', text);
+            try {
+              const data = JSON.parse(text);
+              if (data.success) {
+                alert('Product saved!');
+                location.reload();
+              } else {
+                alert('Error: ' + (data.error || 'Unknown error'));
+              }
+            } catch(e) {
+              console.error('JSON parse error:', e);
+              alert('Server response: ' + text.substring(0, 100));
+            }
+          })
+          .catch(err => {
+            console.error('Fetch error:', err);
+            alert('Error: ' + err.message);
+          });
+        });
+        } else {
+          console.error('saveBtn is null, cannot add event listener');
+        }
+      } else {
+        console.error('ERROR: Form or save button not found!');
+      }
+    }, 500);
+  </script>
 </body>
 </html>

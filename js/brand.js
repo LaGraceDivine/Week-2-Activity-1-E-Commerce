@@ -43,7 +43,7 @@ $(document).ready(function() {
                     $("#addBrandForm")[0].reset();
                     loadBrands(); // Refresh the table
                 } else {
-                    alert("Error: " + (response.error || "Failed to add brand"));
+                    alert("Error: " + (response.message || response.error || "Failed to add brand"));
                 }
             },
             error: function(xhr, status, error) {
@@ -190,7 +190,7 @@ function displayBrands(brands) {
                     <button class="btn-edit" 
                             data-id="${escapeHtml(brand.brand_id)}" 
                             data-name="${escapeHtml(brand.brand_name)}" 
-                            data-category="${escapeHtml(brand.cat_id)}">
+                            data-category="${escapeHtml(brand.category_id || '')}">
                         Edit
                     </button>
                     <button class="btn-delete" 

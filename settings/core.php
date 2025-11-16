@@ -1,22 +1,31 @@
 <?php
 //file for session & admin privileges
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-ob_start();
-
-function isLoggedIn() {
-    if (!isset($_SESSION['user_id'])) {
-        return false;
+// Prevent multiple includes
+if (!defined('CORE_INCLUDED')) {
+    define('CORE_INCLUDED', true);
+    
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
     }
-    return true;
-}
 
-function isAdmin() {
-    if (isLoggedIn()) {
-        return isset($_SESSION['user_role']) && $_SESSION['user_role'] == 1;
+    ob_start();
+
+    if (!function_exists('isLoggedIn')) {
+        function isLoggedIn() {
+            if (!isset($_SESSION['user_id'])) {
+                return false;
+            }
+            return true;
+        }
     }
-    return false;
+
+    if (!function_exists('isAdmin')) {
+        function isAdmin() {
+            if (isLoggedIn()) {
+                return isset($_SESSION['user_role']) && $_SESSION['user_role'] == 1;
+            }
+            return false;
+        }
+    }
 }

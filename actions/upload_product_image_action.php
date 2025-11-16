@@ -1,13 +1,10 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
 
-require_once __DIR__ . '/../settings/db_cred.php';
-require_once __DIR__ . '/../classes/db_connection.php';
-require_once __DIR__ . '/../settings/session_check.php'; // optional, if you track session auth here
+require_once __DIR__ . '/../helpers/auth.php';
 
-// Basic auth check (still works like your previous setup)
-session_start();
-if (empty($_SESSION['user_id']) || empty($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+// Basic auth check
+if (!isloggedIn() || !isAdmin()) {
     http_response_code(403);
     echo json_encode(['success' => false, 'error' => 'Unauthorized']);
     exit;

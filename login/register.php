@@ -55,6 +55,7 @@
 
       <input type="text" name="contact_number" placeholder="Contact Number" required>
       <button type="submit">Register</button>
+      <a href="login.php">Have an account already? Login</a>
     </form>
 
     <div id="message"></div>
@@ -103,11 +104,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     fetch(`../actions/get_cities_action.php?country=${encodeURIComponent(selectedCountryCode)}`)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return res.json();
+      })
       .then(data => {
         citySelect.innerHTML = '';
+        if (data.error) {
+          citySelect.innerHTML = `<option value="">Error: ${data.error}</option>`;
+          return;
+        }
         if (Array.isArray(data.cities) && data.cities.length > 0) {
           data.cities.sort((a, b) => a.localeCompare(b));
+          const defaultOpt = document.createElement('option');
+          defaultOpt.value = '';
+          defaultOpt.textContent = 'Select City';
+          citySelect.appendChild(defaultOpt);
           data.cities.forEach(city => {
             const opt = document.createElement('option');
             opt.value = city;
@@ -115,12 +129,12 @@ document.addEventListener('DOMContentLoaded', () => {
             citySelect.appendChild(opt);
           });
         } else {
-          citySelect.innerHTML = '<option>No cities found</option>';
+          citySelect.innerHTML = '<option value="">No cities found for this country</option>';
         }
       })
       .catch(err => {
         console.error("Error loading cities:", err);
-        citySelect.innerHTML = '<option>Error loading cities</option>';
+        citySelect.innerHTML = '<option value="">Error loading cities. Please try again.</option>';
       });
   });
 

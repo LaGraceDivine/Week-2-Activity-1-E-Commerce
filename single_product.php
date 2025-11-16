@@ -4,6 +4,7 @@ require_once 'classes/db_connection.php';
 require_once 'classes/product_class.php';
 require_once 'controllers/product_controller.php';
 
+$product = new ProductClass();
 $products = $product->view_all_products();
 ?>
 
@@ -13,6 +14,7 @@ $products = $product->view_all_products();
     <title>All Products</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/product.js" defer></script>
+    <script src="js/cart.js" defer></script>
 </head>
 <body>
 
@@ -42,13 +44,13 @@ $products = $product->view_all_products();
 <div id="productList">
 <?php foreach($products as $p): ?>
     <div class="product">
-        <a href="single_product.php?id=<?= $p['id'] ?>">
-            <img src="product/<?= $p['image'] ?>" alt="<?= $p['title'] ?>" width="150">
+        <a href="single_product.php?id=<?= $p['product_id'] ?>">
+            <img src="<?= htmlspecialchars($p['product_image'] ?? 'placeholder.jpg') ?>" alt="<?= htmlspecialchars($p['product_title'] ?? 'Product') ?>" width="150">
         </a>
-        <h3><?= $p['title'] ?></h3>
-        <p>$<?= $p['price'] ?></p>
-        <p><?= $p['category_name'] ?> | <?= $p['brand_name'] ?></p>
-        <button>Add to Cart</button>
+        <h3><?= htmlspecialchars($p['product_title'] ?? 'Product') ?></h3>
+        <p>$<?= number_format($p['product_price'] ?? 0, 2) ?></p>
+        <p><?= htmlspecialchars($p['category_name'] ?? 'Uncategorized') ?> | <?= htmlspecialchars($p['brand_name'] ?? 'No Brand') ?></p>
+        <button onclick="addToCart(<?= $p['product_id'] ?>, 1)" class="add-to-cart-btn">Add to Cart</button>
     </div>
 <?php endforeach; ?>
 </div>

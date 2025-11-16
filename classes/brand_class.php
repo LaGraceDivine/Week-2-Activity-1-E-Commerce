@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../settings/db_class.php';
+require_once __DIR__ . '/../classes/db_connection.php';
 
 class Brand extends Database {
 
@@ -9,12 +9,13 @@ class Brand extends Database {
         $sql = "INSERT INTO brands (brand_name, category_id, user_id) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
         if (!$stmt) {
-            print_r($conn->errorInfo());
+            error_log("Brand insert prepare failed: " . print_r($conn->errorInfo(), true));
             return false;
         }
         $result = $stmt->execute([$brand_name, $category_id, $user_id]);
         if (!$result) {
-            print_r($stmt->errorInfo());
+            error_log("Brand insert execute failed: " . print_r($stmt->errorInfo(), true));
+            return false;
         }
         return $result;
     }
@@ -22,7 +23,7 @@ class Brand extends Database {
     // Get all brands by user
     public function get_brands_by_user($user_id) {
         $conn = $this->connect();
-        $sql = "SELECT b.brand_id, b.brand_name, c.name AS category_name 
+        $sql = "SELECT b.brand_id, b.brand_name, b.category_id, c.name AS category_name 
                 FROM brands b 
                 JOIN categories c ON b.category_id = c.id 
                 WHERE b.user_id = ?";
